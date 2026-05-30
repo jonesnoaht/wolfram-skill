@@ -101,34 +101,51 @@ cd wolfram-skill
 
 ### Development with Nix (recommended)
 
-This project includes a `flake.nix` for a reproducible development environment.
+This project includes a `flake.nix` with two shells:
 
 ```bash
-# Enter the development shell (first time will take a while to download Wolfram Engine)
+# Basic development shell (recommended for most people)
 nix develop
 
-# With direnv (highly recommended)
-direnv allow
+# Shell that also includes Wolfram Engine (see instructions below)
+nix develop .#with-wolfram
 ```
 
-The shell includes:
-- `wolfram-engine` (free Wolfram Engine)
-- `gh`, `git`, `just`
-- Python + Ruff/Black
-- Nix formatting & linting tools (`alejandra`, `statix`)
+The default shell gives you `git`, `gh`, `just`, Python + Ruff/Black, and Nix formatting tools.
 
-**Important:** On first run you will need to activate the Wolfram Engine (free license):
+#### Using Wolfram Engine
 
-```bash
-wolframscript
-```
+The `with-wolfram` shell includes `wolfram-engine`, but because of how Wolfram distributes their software, **you must manually add the installer to the Nix store once**.
 
-Follow the prompts to sign in / get a free license from Wolfram.
+1. Go to https://www.wolfram.com/engine/ and download the **Linux** installer  
+   (`WolframEngine_14.1.0_LIN.sh` or newer).
 
-Once activated, you can run any of the examples directly:
+2. Add it to the Nix store with the correct hash:
+
+   ```bash
+   nix-store --add-fixed sha256 ~/Downloads/WolframEngine_14.1.0_LIN.sh
+   ```
+
+3. Now enter the Wolfram-enabled shell:
+
+   ```bash
+   nix develop .#with-wolfram
+   ```
+
+4. On first use, activate it (free license):
+
+   ```bash
+   wolframscript
+   ```
+
+After that, you can run examples like this:
 
 ```bash
 wolframscript -f .grok/skills/wolfram/examples/holography-kinoform-W.wl
 ```
+
+> **Note:** If you're using `direnv`, you may want to create a `.envrc` that uses `use flake .#with-wolfram` once you have Wolfram set up.
+
+This manual step is unfortunately required by the current nixpkgs packaging of Wolfram software.
 
 Contributions, bug reports, and new high-quality examples (especially more holography or PDE/FEM cases) are very welcome.

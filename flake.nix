@@ -11,69 +11,95 @@
       let
         pkgs = import nixpkgs {
           inherit system;
-          config.allowUnfree = true; # Required for wolfram-engine and mathematica
+          config.allowUnfree = true;
         };
+
+        # Wolfram Engine is special: the nixpkgs derivation does NOT download
+        # the installer for you. You must manually download it once and add it
+        # to the store. See the shellHook and README for instructions.
+        wolframPackages = with pkgs; [
+          wolfram-engine
+        ];
       in
       {
-        devShells.default = pkgs.mkShell {
-          packages = with pkgs; [
-            # Version control & GitHub
-            git
-            gh
+        devShells = {
+          # Main development shell (recommended for most people)
+          default = pkgs.mkShell {
+            packages = with pkgs; [
+              git
+              gh
+              just
 
-            # Task runner (highly recommended)
-            just
+              # Python tooling (useful for future scripts/)
+              python3
+              python3Packages.pip
+              python3Packages.ruff
+              python3Packages.black
 
-            # Python (useful for future scripts/ and general tooling)
-            python3
-            python3Packages.pip
-            python3Packages.ruff
-            python3Packages.black
+              # Nix development tools
+              alejandra
+              statix
+              deadnix
+            ];
 
-            # Nix tooling
-            alejandra
-            statix
-            deadnix
+            shellHook = ''
+              echo ""
+              echo "╔════════════════════════════════════════════════════════════╗"
+              echo "║   Wolfram Skill Development Environment                    ║"
+              echo "╚════════════════════════════════════════════════════════════╝"
+              echo ""
+              echo "  Tools available: git, gh, just, python3, ruff, alejandra, statix"
+              echo ""
+              echo "  To also get Wolfram Engine in your shell, run:"
+              echo "    nix develop .#with-wolfram"
+              echo ""
+              echo "  Or manually add it later (see instructions below)."
+              echo ""
+            '';
+          };
 
-            # Wolfram Language (free Wolfram Engine)
-            wolfram-engine
-          ];
+          # Optional shell that includes Wolfram Engine.
+          # This will fail on first use until you manually add the installer.
+          with-wolfram = pkgs.mkShell {
+            packages = with pkgs; [
+              git
+              gh
+              just
+              python3
+              python3Packages.pip
+              python3Packages.ruff
+              python3Packages.black
+              alejandra
+              statix
+              deadnix
+              wolfram-engine
+            ];
 
-          shellHook = ''
-            echo ""
-            echo "╔════════════════════════════════════════════════════════════╗"
-            echo "║   Wolfram Skill Development Environment                    ║"
-            echo "╚════════════════════════════════════════════════════════════╝"
-            echo ""
-            echo "  Project: wolfram-skill (physics + holography demos)"
-            echo ""
+            shellHook = ''
+              echo ""
+              echo "Wolfram Skill dev shell (with Wolfram Engine)"
+              echo ""
 
-            # Check Wolfram Engine status
-            if command -v wolframscript >/dev/null 2>&1; then
-              if wolframscript -code 'Print[1+1]' >/dev/null 2>&1; then
-                echo "  ✓ Wolfram Engine is activated and working"
-                echo "    Version: $(wolframscript -version 2>/dev/null || echo 'unknown')"
+              if command -v wolframscript >/dev/null 2>&1; then
+                if wolframscript -code 'Print[2+2]' >/dev/null 2>&1; then
+                  echo "✓ Wolfram Engine is installed and activated"
+                  wolframscript -version 2>/dev/null || true
+                else
+                  echo "⚠ Wolfram Engine package is present but not activated yet."
+                  echo ""
+                  echo "Run this to activate it (free license):"
+                  echo "  wolframscript"
+                  echo ""
+                  echo "You only need to do this once."
+                fi
               else
-                echo "  ⚠ Wolfram Engine is installed but not yet activated"
-                echo "    Run:  wolframscript"
-                echo "    (You'll need a free license from https://www.wolfram.com/engine/)"
+                echo "Wolfram Engine is not in this environment."
               fi
-            else
-              echo "  ✗ wolframscript not found in PATH"
-            fi
-
-            echo ""
-            echo "  Useful commands:"
-            echo "    just --list          # if you add a justfile later"
-            echo "    nix fmt              # format this flake"
-            echo ""
-            echo "  To run examples:"
-            echo "    wolframscript -f .grok/skills/wolfram/examples/holography-kinoform-W.wl"
-            echo ""
-          '';
+              echo ""
+            '';
+          };
         };
 
-        # Formatter for `nix fmt`
         formatter = pkgs.alejandra;
       }
     );
