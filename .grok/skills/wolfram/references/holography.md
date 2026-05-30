@@ -168,4 +168,4 @@ Use the official Wolfram tutorial:
 - Wolfram Community notebooks on vectorial diffraction integrals (search "angular spectrum" + "González-Acuña")
 - "Introduction to Fourier Optics" (Goodman) — translate the math directly; WL makes it executable.
 
-This reference + the example in `examples/holography-off-axis.wl` should let you generate production-quality, immediately runnable holography simulations and teaching demos in minutes.
+This reference + `examples/holography-off-axis.wl` + `examples/holography-kinoform.wl` should let you generate production-quality, immediately runnable holography simulations and teaching demos (including phase-only SLM work) in minutes.

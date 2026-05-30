@@ -25,13 +25,18 @@ Grok will auto-discover it. You can invoke it with `/wolfram` or simply by askin
 .grok/skills/wolfram/
 ├── SKILL.md                 # Main skill definition (lean, trigger-focused)
 ├── references/
-│   ├── holography.md        # Detailed CGH / angular spectrum patterns & pitfalls
-│   ├── mechanics.md         # ODE best practices, symplectic methods, diagnostics
-│   └── wave-optics.md       # (planned) more diffraction & validation material
+│   ├── quickstart.md        # 5-minute copy-paste recipes
+│   ├── holography.md        # CGH, kinoforms, Gerchberg-Saxton, pitfalls
+│   ├── mechanics.md         # Symplectic ODEs, energy diagnostics, chaos
+│   └── wave-optics.md       # Talbot, diffraction, validation
 ├── examples/
-│   ├── holography-off-axis.wl   # Complete, runnable off-axis hologram demo
-│   └── double-pendulum.wl       # High-quality symplectic double pendulum + diagnostics
-└── scripts/                 # (future) any helper utilities
+│   ├── holography-off-axis.wl   # Off-axis digital hologram (recommended)
+│   ├── holography-kinoform.wl   # Phase-only + iterative GS for SLMs
+│   ├── talbot-effect.wl         # Near-field self-imaging (stunning)
+│   ├── double-pendulum.wl       # Symplectic + live diagnostics
+│   ├── lorenz-attractor.wl      # 3D chaos with parameter sliders
+│   └── gaussian-beam-propagation.wl  # ASM validation test
+└── scripts/                 # (future) helper utilities
 ```
 
 ## Quick Start — Try These Prompts
@@ -64,10 +69,11 @@ This skill encodes the hard-won lessons of writing *responsive*, *numerically tr
 
 ## Status
 
-- Core holography pipeline: excellent
-- Mechanics patterns: strong
-- More wave/FEM/PDE examples: planned
-- Python/Matlab interop helpers: future
+- Holography (off-axis + kinoform/GS + Talbot): excellent and growing
+- Classical mechanics + chaos: strong
+- Wave optics validation patterns: solid
+- More FEM/PDE and advanced CGH (full 3D, color): planned
+- scripts/ helpers: next milestone
 
 ---
 

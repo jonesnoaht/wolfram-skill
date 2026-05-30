@@ -133,16 +133,18 @@ See `references/mechanics.md` and `examples/` for double pendulum, n-body, Loren
 ## Additional Resources
 
 ### Reference Files
+- `references/quickstart.md` — 5-minute copy-paste recipes for the most common demos
 - `references/holography.md` — Full CGH pipeline, kinoforms, 3D objects, common pitfalls
 - `references/mechanics.md` — Symplectic methods, n-body, WhenEvent patterns, energy diagnostics
 - `references/wave-optics.md` — Angular spectrum variants, Fresnel/Fraunhofer, validation against analytics
-- `references/performance.md` — Compilation, memoization, grid sizing, parallel tips
 
 ### Complete Examples
 - `examples/holography-off-axis.wl` — Off-axis digital hologram recording + interactive reconstruction (recommended starting point)
+- `examples/holography-kinoform.wl` — Phase-only kinoform + basic Gerchberg-Saxton iteration (for SLMs)
+- `examples/talbot-effect.wl` — Stunning near-field self-imaging of a periodic grating
 - `examples/double-pendulum.wl` — Classic high-quality Manipulate with symplectic integration and phase portrait
-- `examples/gaussian-beam-propagation.wl` — Wave optics validation case
-- `examples/n-body-gravity.wl` — Simple gravitational n-body with Manipulate
+- `examples/lorenz-attractor.wl` — 3D chaotic attractor with live parameter control
+- `examples/gaussian-beam-propagation.wl` — Wave optics validation case (use this to test any propagator)
 
 Copy these directly into a Wolfram notebook or `.wl` file. They are designed to be immediately runnable and modifiable.
 
