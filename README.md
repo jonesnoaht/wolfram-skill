@@ -118,13 +118,15 @@ The default shell gives you `git`, `gh`, `just`, Python + Ruff/Black, and Nix fo
 The `with-wolfram` shell includes `wolfram-engine`, but because of how Wolfram distributes their software, **you must manually add the installer to the Nix store once**.
 
 1. Go to https://www.wolfram.com/engine/ and download the **Linux** installer  
-   (`WolframEngine_14.1.0_LIN.sh` or newer).
+   (currently `WolframEngine_14.3.0_LIN.sh` or newer).
 
-2. Add it to the Nix store with the correct hash:
+2. Add the downloaded file to the Nix store (replace the filename with the exact one you downloaded):
 
    ```bash
-   nix-store --add-fixed sha256 ~/Downloads/WolframEngine_14.1.0_LIN.sh
+   nix-store --add-fixed sha256 ~/Downloads/WolframEngine_14.3.0_LIN.sh
    ```
+
+   > This step is required because Wolfram does not allow automatic redistribution of their installers.
 
 3. Now enter the Wolfram-enabled shell:
 
