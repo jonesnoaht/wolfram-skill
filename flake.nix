@@ -14,26 +14,17 @@
           config.allowUnfree = true;
         };
 
-        # === Wolfram Engine override for version 14.3 ===
+        # === Wolfram Engine 14.3 override ===
         #
-        # The version in nixpkgs (currently 14.1) is outdated.
-        # We define our own using the 14.3 installer you downloaded.
-        #
-        # After you run:
-        #   nix-store --add-fixed sha256 ~/Downloads/WolframEngine_14.3.0_LIN.sh
-        # the requireFile below will find it.
+        # We completely bypass nixpkgs' requireFile (which is stuck on 14.1)
+        # by pointing straight at the file you already added to the store.
         wolframEngine14_3 = pkgs.wolfram-engine.overrideAttrs (old: rec {
           version = "14.3.0";
-          src = pkgs.requireFile {
-            name = "WolframEngine_14.3.0_LIN.sh";
-            url = "https://www.wolfram.com/engine/";
-            # IMPORTANT: Replace this with the real SRI hash for your 14.3 installer.
-            # You can get it with:
-            #   nix hash convert --from nix32 --to sri sha256:7qdmra8n79ddvwf6bwrgazs18j2k460w
-            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
-          };
-          # The original package has some post-install steps that may need adjustment
-          # for newer versions. This is a best-effort override.
+          # Use the exact store path from the file you added earlier.
+          # This is the simplest and most reliable way once the file is in your store.
+          src = /nix/store/7qdmra8n79ddvwf6bwrgazs18j2k460w-WolframEngine_14.3.0_LIN.sh;
+          # Note: The original wolfram-engine package does some installer post-processing.
+          # If this override produces further errors, we can refine it.
         });
       in
       {
