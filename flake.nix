@@ -25,7 +25,12 @@
           src = pkgs.requireFile {
             name = "WolframEngine_14.3.0_LIN.sh";
             url = "https://www.wolfram.com/engine/";
-            # Replace this with the real hash (see instructions in README or run the command below)
+            # Replace this with the real SRI hash.
+            # Get it with (modern Nix):
+            #   nix hash file --sri /nix/store/7qdmra8n79ddvwf6bwrgazs18j2k460w-WolframEngine_14.3.0_LIN.sh
+            #
+            # Or for older Nix:
+            #   HASH=$(nix hash file --type sha256 /nix/store/...); nix hash to-sri "$HASH"
             sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
           };
         });

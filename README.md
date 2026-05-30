@@ -119,10 +119,17 @@ The version in nixpkgs is still 14.1. This flake overrides it to use your 14.3 i
 
 Because flakes evaluate in pure mode, you **must** use the hash-based `requireFile` approach (raw `/nix/store/...` paths are forbidden).
 
-1. You already added the installer earlier. Now extract its correct SRI hash:
+1. You already added the installer earlier. Now extract its correct SRI hash (try this first):
 
    ```bash
-   nix hash file --sri --algo sha256 /nix/store/7qdmra8n79ddvwf6bwrgazs18j2k460w-WolframEngine_14.3.0_LIN.sh
+   nix hash file --sri /nix/store/7qdmra8n79ddvwf6bwrgazs18j2k460w-WolframEngine_14.3.0_LIN.sh
+   ```
+
+   If your Nix version is older and complains about flags, use this instead:
+
+   ```bash
+   HASH=$(nix hash file --type sha256 /nix/store/7qdmra8n79ddvwf6bwrgazs18j2k460w-WolframEngine_14.3.0_LIN.sh)
+   nix hash to-sri "$HASH"
    ```
 
    This will print something like `sha256-abc123...longstring=`
