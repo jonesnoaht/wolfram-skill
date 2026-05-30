@@ -1,0 +1,70 @@
+# Mathematica / Wolfram specific
+*.nb
+*.nbp
+*.mx
+*.m~
+*.wl~
+*.tm
+*.cdf
+*.nbi
+*.nbo
+
+# Mathematica caches and packages
+/.Mathematica/
+Mathematica/
+PacletInfo.m
+PacletInfo.wl
+
+# Large generated media (uncomment if you want to track specific exports)
+# *.gif
+# *.avi
+# *.mov
+# *.mp4
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Python (if any helper scripts are added later)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Logs and temp
+*.log
+*.tmp
+/tmp/
+
+# Git
+.git/
