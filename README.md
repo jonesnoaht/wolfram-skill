@@ -131,8 +131,15 @@ The version in nixpkgs is still 14.1, so this flake overrides it to use **14.3**
    nix develop .#with-wolfram
    ```
 
-   It will fail the first time and tell you the correct `sha256` hash.  
-   Copy that hash and paste it into `flake.nix` in the `wolframEngine14_3` definition (replace the placeholder).
+   It will fail the first time with a hash mismatch and show the real hash.
+
+   Or compute it directly with the store path you already have:
+
+   ```bash
+   nix hash convert --from nix32 --to sri sha256:7qdmra8n79ddvwf6bwrgazs18j2k460w
+   ```
+
+   Copy the output (e.g. `sha256-abc123...=`) and paste it into `flake.nix` in the `wolframEngine14_3` definition.
 
 4. Run `nix develop .#with-wolfram` again.
 

@@ -27,9 +27,9 @@
           src = pkgs.requireFile {
             name = "WolframEngine_14.3.0_LIN.sh";
             url = "https://www.wolfram.com/engine/";
-            # This is a dummy hash. The first time you run `nix develop .#with-wolfram`
-            # after adding the file with `nix-store --add-fixed`, Nix will give you
-            # the real hash in a "hash mismatch" error. Copy it here.
+            # IMPORTANT: Replace this with the real SRI hash for your 14.3 installer.
+            # You can get it with:
+            #   nix hash convert --from nix32 --to sri sha256:7qdmra8n79ddvwf6bwrgazs18j2k460w
             sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
           };
           # The original package has some post-install steps that may need adjustment
