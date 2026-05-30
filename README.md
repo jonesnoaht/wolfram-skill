@@ -113,41 +113,41 @@ nix develop .#with-wolfram
 
 The default shell gives you `git`, `gh`, `just`, Python + Ruff/Black, and Nix formatting tools.
 
-#### Using Wolfram Engine
+#### Using Wolfram Engine 14.3
 
-The `with-wolfram` shell includes `wolfram-engine`, but because of how Wolfram distributes their software, **you must manually add the installer to the Nix store once**.
+The version in nixpkgs is still 14.1, so this flake overrides it to use **14.3**.
 
-1. Go to https://www.wolfram.com/engine/ and download the **Linux** installer  
-   (currently `WolframEngine_14.3.0_LIN.sh` or newer).
+1. Download the Linux installer `WolframEngine_14.3.0_LIN.sh` from https://www.wolfram.com/engine/.
 
-2. Add the downloaded file to the Nix store (replace the filename with the exact one you downloaded):
+2. Add it to the Nix store:
 
    ```bash
    nix-store --add-fixed sha256 ~/Downloads/WolframEngine_14.3.0_LIN.sh
    ```
 
-   > This step is required because Wolfram does not allow automatic redistribution of their installers.
-
-3. Now enter the Wolfram-enabled shell:
+3. Try entering the shell:
 
    ```bash
    nix develop .#with-wolfram
    ```
 
-4. On first use, activate it (free license):
+   It will fail the first time and tell you the correct `sha256` hash.  
+   Copy that hash and paste it into `flake.nix` in the `wolframEngine14_3` definition (replace the placeholder).
+
+4. Run `nix develop .#with-wolfram` again.
+
+5. Activate the engine (only needed once):
 
    ```bash
    wolframscript
    ```
 
-After that, you can run examples like this:
+After this you can run examples:
 
 ```bash
 wolframscript -f .grok/skills/wolfram/examples/holography-kinoform-W.wl
 ```
 
-> **Note:** If you're using `direnv`, you may want to create a `.envrc` that uses `use flake .#with-wolfram` once you have Wolfram set up.
-
-This manual step is unfortunately required by the current nixpkgs packaging of Wolfram software.
+This two-step hash process is annoying but required because Wolfram does not allow redistribution of their installers. Once the hash is set in the flake it stays working.
 
 Contributions, bug reports, and new high-quality examples (especially more holography or PDE/FEM cases) are very welcome.

@@ -14,12 +14,24 @@
           config.allowUnfree = true;
         };
 
-        # Wolfram Engine is special: the nixpkgs derivation does NOT download
-        # the installer for you. You must manually download it once and add it
-        # to the store. See the shellHook and README for instructions.
-        wolframPackages = with pkgs; [
-          wolfram-engine
-        ];
+        # === Wolfram Engine override for version 14.3 ===
+        #
+        # The version in nixpkgs (currently 14.1) is outdated.
+        # We define our own using the 14.3 installer you downloaded.
+        #
+        # After you run:
+        #   nix-store --add-fixed sha256 ~/Downloads/WolframEngine_14.3.0_LIN.sh
+        # the requireFile below will find it.
+        wolframEngine14_3 = pkgs.wolfram-engine.overrideAttrs (old: rec {
+          version = "14.3.0";
+          src = pkgs.requireFile {
+            name = "WolframEngine_14.3.0_LIN.sh";
+            url = "https://www.wolfram.com/engine/";
+            sha256 = "sha256-00000000000000000000000000000000000000000000000="; # placeholder - will be replaced by nix
+          };
+          # The original package has some post-install steps that may need adjustment
+          # for newer versions. This is a best-effort override.
+        });
       in
       {
         devShells = {
@@ -50,16 +62,13 @@
               echo ""
               echo "  Tools available: git, gh, just, python3, ruff, alejandra, statix"
               echo ""
-              echo "  To also get Wolfram Engine in your shell, run:"
+              echo "  To get Wolfram Engine 14.3, run:"
               echo "    nix develop .#with-wolfram"
-              echo ""
-              echo "  Or manually add it later (see instructions below)."
               echo ""
             '';
           };
 
-          # Optional shell that includes Wolfram Engine.
-          # This will fail on first use until you manually add the installer.
+          # Shell with Wolfram Engine 14.3
           with-wolfram = pkgs.mkShell {
             packages = with pkgs; [
               git
@@ -72,28 +81,27 @@
               alejandra
               statix
               deadnix
-              wolfram-engine
+              wolframEngine14_3
             ];
 
             shellHook = ''
               echo ""
-              echo "Wolfram Skill dev shell (with Wolfram Engine)"
+              echo "Wolfram Skill dev shell (Wolfram Engine 14.3)"
               echo ""
 
               if command -v wolframscript >/dev/null 2>&1; then
                 if wolframscript -code 'Print[2+2]' >/dev/null 2>&1; then
-                  echo "✓ Wolfram Engine is installed and activated"
+                  echo "✓ Wolfram Engine 14.3 is activated"
                   wolframscript -version 2>/dev/null || true
                 else
-                  echo "⚠ Wolfram Engine package is present but not activated yet."
-                  echo ""
-                  echo "Run this to activate it (free license):"
-                  echo "  wolframscript"
-                  echo ""
-                  echo "You only need to do this once."
+                  echo "⚠ Wolfram Engine is present but not activated yet."
+                  echo "Run:  wolframscript   (you only need to do this once)"
                 fi
               else
-                echo "Wolfram Engine is not in this environment."
+                echo "Wolfram Engine not found in PATH."
+                echo ""
+                echo "Make sure you have added the installer:"
+                echo "  nix-store --add-fixed sha256 ~/Downloads/WolframEngine_14.3.0_LIN.sh"
               fi
               echo ""
             '';
