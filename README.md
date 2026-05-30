@@ -99,4 +99,36 @@ cd wolfram-skill
 # Try: "Create a Wolfram Language holography simulation..."
 ```
 
+### Development with Nix (recommended)
+
+This project includes a `flake.nix` for a reproducible development environment.
+
+```bash
+# Enter the development shell (first time will take a while to download Wolfram Engine)
+nix develop
+
+# With direnv (highly recommended)
+direnv allow
+```
+
+The shell includes:
+- `wolfram-engine` (free Wolfram Engine)
+- `gh`, `git`, `just`
+- Python + Ruff/Black
+- Nix formatting & linting tools (`alejandra`, `statix`)
+
+**Important:** On first run you will need to activate the Wolfram Engine (free license):
+
+```bash
+wolframscript
+```
+
+Follow the prompts to sign in / get a free license from Wolfram.
+
+Once activated, you can run any of the examples directly:
+
+```bash
+wolframscript -f .grok/skills/wolfram/examples/holography-kinoform-W.wl
+```
+
 Contributions, bug reports, and new high-quality examples (especially more holography or PDE/FEM cases) are very welcome.
