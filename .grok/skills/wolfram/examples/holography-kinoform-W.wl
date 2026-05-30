@@ -208,7 +208,8 @@ ExportKinoformW[] := Module[{},
 (* Dual-mode dispatch *)
 If[Length[$ScriptCommandLine] > 0,
   (* Running via wolframscript -f → batch export mode *)
-  ExportKinoformW[],
+  ExportKinoformW[];
+  Exit[0],   (* Explicitly exit so wolframscript terminates cleanly *)
   
   (* Running in notebook / interactive frontend → show Manipulate *)
   Print["Kinoform of letter W loaded."];

@@ -113,7 +113,8 @@ ExportTalbotImages[] := Module[{},
 ];
 
 If[Length[$ScriptCommandLine] > 0,
-  ExportTalbotImages[],
+  ExportTalbotImages[];
+  Exit[0],
   Print["Talbot effect demo loaded. Evaluate the Manipulate above."];
   Print["Call ExportTalbotImages[] to export from script."];
 ];

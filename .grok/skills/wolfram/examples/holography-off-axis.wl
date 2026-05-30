@@ -268,7 +268,8 @@ ExportOffAxisHologram[] := Module[{},
 ];
 
 If[Length[$ScriptCommandLine] > 0,
-  ExportOffAxisHologram[],
+  ExportOffAxisHologram[];
+  Exit[0],
   Print["\n=== Holography demo ready ==="];
   Print["Evaluate the Manipulate cell above for interactive use."];
   Print["Call ExportOffAxisHologram[] to export images from script."];

@@ -132,7 +132,8 @@ ExportKinoformDemo[] := Module[{},
 ];
 
 If[Length[$ScriptCommandLine] > 0,
-  ExportKinoformDemo[],
+  ExportKinoformDemo[];
+  Exit[0],
   Print["Kinoform demo loaded (generic version)."];
   Print["Evaluate the Manipulate above for interactive use."];
 ];
