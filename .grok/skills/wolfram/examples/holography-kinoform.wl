@@ -109,9 +109,30 @@ Manipulate[
   SynchronousUpdating -> False
 ]
 
-(* Notes:
-   - The naive kinoform usually shows strong speckle and poor uniformity.
-   - After 8–20 GS iterations the reconstruction becomes much cleaner
-     (especially in the bright regions).
-   - This is the starting point for real SLM holographic display pipelines.
-*)
+(* ============================================================ *)
+(* SCRIPT MODE SUPPORT                                          *)
+(* ============================================================ *)
+
+ExportKinoformDemo[] := Module[{},
+  Print["Exporting generic kinoform demo..."];
+  
+  Export[
+    FileNameJoin[{$HomeDirectory, "kinoform-demo.png"}],
+    GraphicsRow[{
+      ArrayPlot[Abs[objectAtHolo]^2, ColorFunction -> "SunsetColors"],
+      ArrayPlot[Arg[kinoformIter] // Rescale, ColorFunction -> "Rainbow"],
+      ArrayPlot[Abs[reconstruct[kinoformIter, zHolo]]^2 // Rescale, 
+        ColorFunction -> "TemperatureMap"]
+    }],
+    ImageResolution -> 200
+  ];
+  Print["  → ~/kinoform-demo.png"];
+  
+  Print["Done."];
+];
+
+If[Length[$ScriptCommandLine] > 0,
+  ExportKinoformDemo[],
+  Print["Kinoform demo loaded (generic version)."];
+  Print["Evaluate the Manipulate above for interactive use."];
+];

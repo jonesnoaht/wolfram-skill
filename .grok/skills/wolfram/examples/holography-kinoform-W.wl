@@ -6,14 +6,20 @@
    Phase-only computer-generated hologram (kinoform) of the letter W.
    Ready-to-run example using the patterns from the wolfram skill.
    
+   USAGE:
+   - In a notebook (recommended for exploration):
+       Open this file in Mathematica/Wolfram Desktop and evaluate.
+       The interactive Manipulate will appear.
+   
+   - From command line / wolframscript (great for batch/export):
+       wolframscript -f holography-kinoform-W.wl
+       This will automatically export several PNGs and a GIF.
+   
    Features:
    - High-quality text rendering of "W"
-   - Random phase diffuser for better reconstruction
-   - Direct kinoform vs iterative Gerchberg-Saxton version
-   - Interactive reconstruction distance control
-   - Side-by-side comparison views
-   
-   This is excellent for SLM / holographic display demos.
+   - Random phase diffuser
+   - Iterative Gerchberg-Saxton kinoform (much better than naive)
+   - Exports ready for SLM use
 *)
 
 ClearAll["Global`*"];
@@ -153,20 +159,59 @@ Manipulate[
   )
 ]
 
-(* === QUICK EXPORTS (uncomment to use) === *)
-(*
-(* Export the kinoform phase pattern as an 8-bit image for SLM loading *)
-kinoImage = Rescale[Arg[kinoformIter]] // Image;
-Export[FileNameJoin[{$HomeDirectory, "W-kinoform-phase.png"}], kinoImage, 
-  ImageResolution -> 300];
 
-(* Export a short animation of reconstruction distance *)
-Export[FileNameJoin[{$HomeDirectory, "W-kinoform-reconstruction.gif"}],
-  Table[
-    ArrayPlot[Abs[reconstruct[kinoformIter, z]]^2 // Rescale, 
-      ColorFunction -> "TemperatureMap"],
-    {z, 0.02, 0.08, 0.002}
-  ],
-  "AnimationRepetitions" -> Infinity
+(* ============================================================ *)
+(* SCRIPT / BATCH MODE SUPPORT                                  *)
+(* ============================================================ *)
+
+ExportKinoformW[] := Module[{},
+  Print["Exporting kinoform images for letter W..."];
+  
+  (* 1. The phase-only kinoform (what you load onto an SLM) *)
+  Export[
+    FileNameJoin[{$HomeDirectory, "W-kinoform-phase.png"}],
+    Image[Rescale[Arg[kinoformIter]], "Byte"],
+    ImageResolution -> 300
+  ];
+  Print["  → ~/W-kinoform-phase.png  (phase pattern for SLM)"];
+  
+  (* 2. Reconstructed intensity at the design distance *)
+  Export[
+    FileNameJoin[{$HomeDirectory, "W-kinoform-reconstruction.png"}],
+    ArrayPlot[
+      Abs[reconstruct[kinoformIter, zHolo]]^2 // Rescale,
+      ColorFunction -> "TemperatureMap",
+      Frame -> False
+    ],
+    ImageResolution -> 250
+  ];
+  Print["  → ~/W-kinoform-reconstruction.png"];
+  
+  (* 3. Small GIF showing reconstruction quality vs distance *)
+  Export[
+    FileNameJoin[{$HomeDirectory, "W-kinoform-reconstruction.gif"}],
+    Table[
+      ArrayPlot[
+        Abs[reconstruct[kinoformIter, z]]^2 // Rescale,
+        ColorFunction -> "TemperatureMap",
+        Frame -> False
+      ],
+      {z, 0.02, 0.08, 0.003}
+    ],
+    "AnimationRepetitions" -> Infinity
+  ];
+  Print["  → ~/W-kinoform-reconstruction.gif  (vs distance)"];
+  
+  Print["Done. Check your home directory."];
 ];
-*)
+
+(* Dual-mode dispatch *)
+If[Length[$ScriptCommandLine] > 0,
+  (* Running via wolframscript -f → batch export mode *)
+  ExportKinoformW[],
+  
+  (* Running in notebook / interactive frontend → show Manipulate *)
+  Print["Kinoform of letter W loaded."];
+  Print["Evaluate the Manipulate above for the interactive version."];
+  Print["You can also call ExportKinoformW[] manually to export images."];
+]

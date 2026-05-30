@@ -89,9 +89,31 @@ Manipulate[
   SaveDefinitions -> True
 ]
 
-(* Teaching notes:
-   - At z = z_T the pattern should look almost identical to the grating (self-image).
-   - At z = z_T/2 you see a phase-reversed or shifted image (fractional Talbot).
-   - Try changing the grating period or making it a phase grating:
-       grating = Exp[I Pi Sign[Sin[2 Pi X / period]]];
-*)
+(* ============================================================ *)
+(* SCRIPT MODE SUPPORT                                          *)
+(* ============================================================ *)
+
+ExportTalbotImages[] := Module[{},
+  Print["Exporting Talbot effect images..."];
+  
+  Export[
+    FileNameJoin[{$HomeDirectory, "talbot-effect.png"}],
+    GraphicsRow[{
+      ArrayPlot[grating, ColorFunction -> "GrayTones"],
+      ArrayPlot[ASPropagate[grating, talbotZ/2, λ, ps]^2 // Abs // Rescale, 
+        ColorFunction -> "TemperatureMap"],
+      ArrayPlot[ASPropagate[grating, talbotZ, λ, ps]^2 // Abs // Rescale, 
+        ColorFunction -> "TemperatureMap"]
+    }],
+    ImageResolution -> 200
+  ];
+  Print["  → ~/talbot-effect.png  (grating | z_T/2 | z_T)"];
+  
+  Print["Done."];
+];
+
+If[Length[$ScriptCommandLine] > 0,
+  ExportTalbotImages[],
+  Print["Talbot effect demo loaded. Evaluate the Manipulate above."];
+  Print["Call ExportTalbotImages[] to export from script."];
+];

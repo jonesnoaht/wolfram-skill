@@ -245,6 +245,32 @@ ListPlot[{Abs[testField[[n/2]]]^2, Abs[testProp[[n/2]]]^2},
   Joined -> True, PlotLegends -> {"z=0", "z=50mm"}]
 *)
 
-Print["\n=== Holography demo ready ==="];
-Print["Evaluate the Manipulate cell above."];
+(* ============================================================ *)
+(* SCRIPT MODE SUPPORT                                          *)
+(* ============================================================ *)
+
+ExportOffAxisHologram[] := Module[{},
+  Print["Exporting off-axis hologram demo images..."];
+  
+  Export[
+    FileNameJoin[{$HomeDirectory, "offaxis-hologram.png"}],
+    GraphicsRow[{
+      ArrayPlot[Abs[object]^2, ColorFunction -> "SunsetColors"],
+      ArrayPlot[holo0, ColorFunction -> "GrayTones"],
+      ArrayPlot[Abs[reconstruct[0.05, defaultTheta]]^2 // Rescale, 
+        ColorFunction -> "TemperatureMap"]
+    }],
+    ImageResolution -> 200
+  ];
+  Print["  → ~/offaxis-hologram.png"];
+  
+  Print["Done."];
+];
+
+If[Length[$ScriptCommandLine] > 0,
+  ExportOffAxisHologram[],
+  Print["\n=== Holography demo ready ==="];
+  Print["Evaluate the Manipulate cell above for interactive use."];
+  Print["Call ExportOffAxisHologram[] to export images from script."];
+];
 Print["Try changing objectType to \"gaussian\" or \"points\" and re-evaluate."];
