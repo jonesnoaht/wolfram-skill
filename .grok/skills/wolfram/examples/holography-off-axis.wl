@@ -33,7 +33,7 @@ ps = 5.0 * 10^-6;     (* pixel pitch / sampling distance, 5 µm — typical SLM/
 n = 512;              (* grid size — power of 2 is best for FFT speed/accuracy *)
 L = n * ps;           (* physical side length of the hologram *)
 
-k = 2 π / λ;          (* wave number *)
+k = 2 Pi / λ;          (* wave number *)
 
 (* Coordinate grids (centered) *)
 x = ps * Range[-n/2, n/2 - 1];
@@ -52,9 +52,9 @@ AngularSpectrumPropagate[field_ComplexMatrix, z_?NumericQ, λ_?NumericQ, dx_?Num
     df = 1.0 / (nx * dx);
     fx = RotateRight[Range[-nx/2, nx/2 - 1] * df, Floor[nx/2]];
     fy = fx;
-    kx = 2 π * Outer[Times, fx, ConstantArray[1, nx]];
-    ky = 2 π * Outer[Times, ConstantArray[1, nx], fy];
-    kz = Sqrt[(2 π / λ)^2 - kx^2 - ky^2 + 0. I];
+    kx = 2 Pi * Outer[Times, fx, ConstantArray[1, nx]];
+    ky = 2 Pi * Outer[Times, ConstantArray[1, nx], fy];
+    kz = Sqrt[(2 Pi / λ)^2 - kx^2 - ky^2 + 0. I];
     H = Exp[I * kz * z] * UnitStep[Re[kz]];  (* evanescent wave filter *)
     F = Fourier[field, FourierParameters -> {0, -1}];
     InverseFourier[F * H, FourierParameters -> {0, -1}]
@@ -67,7 +67,7 @@ AngularSpectrumPropagate[field_ComplexMatrix, z_?NumericQ, λ_?NumericQ, dx_?Num
 makeObject["gaussian", params_] := Module[{x0, y0, w},
   {x0, y0, w} = params;
   Exp[-((X - x0)^2 + (Y - y0)^2) / (2 w^2)] *
-    Exp[I * RandomReal[{-π, π}, {n, n}]]
+    Exp[I * RandomReal[{-Pi, Pi}, {n, n}]]
 ];
 
 makeObject["text", params_] := Module[{letter, textImg, diffuser},
@@ -80,7 +80,7 @@ makeObject["text", params_] := Module[{letter, textImg, diffuser},
     ]
   ][[All, All, 1]];  (* 0 (white) .. 1 (black) *)
   textImg = 1 - textImg;  (* invert so letter is bright *)
-  diffuser = Exp[I * RandomReal[{-π, π}, {n, n}]];
+  diffuser = Exp[I * RandomReal[{-Pi, Pi}, {n, n}]];
   textImg * diffuser
 ];
 
@@ -90,7 +90,7 @@ makeObject["points", params_] := Module[{num, pts, field},
   Do[
     pts = RandomReal[{-L/3, L/3}, 2];
     field += Exp[-((X - pts[[1]])^2 + (Y - pts[[2]])^2) / (2 (L/40)^2)] *
-             Exp[I * RandomReal[{-π, π}, {n, n}]],
+             Exp[I * RandomReal[{-Pi, Pi}, {n, n}]],
     num
   ];
   field
@@ -225,7 +225,7 @@ holo0 = recordHologram[defaultTheta];
 
 (* Change wavelength to red (633 nm HeNe) *)
 (*
-λ = 633 * 10^-9; k = 2 π / λ;
+λ = 633 * 10^-9; k = 2 Pi / λ;
 *)
 
 (* Larger grid for higher resolution (slower but prettier) *)

@@ -38,9 +38,9 @@ ASPropagate[field_ComplexMatrix, z_?NumericQ, λ_?NumericQ, dx_?NumericQ] :=
     df = 1/(nx dx);
     fx = RotateRight[Range[-nx/2, nx/2 - 1] df, Floor[nx/2]];
     fy = fx;
-    kx = 2 π Outer[Times, fx, ConstantArray[1, nx]];
-    ky = 2 π Outer[Times, ConstantArray[1, nx], fy];
-    kz = Sqrt[(2 π/λ)^2 - kx^2 - ky^2 + 0. I];
+    kx = 2 Pi Outer[Times, fx, ConstantArray[1, nx]];
+    ky = 2 Pi Outer[Times, ConstantArray[1, nx], fy];
+    kz = Sqrt[(2 Pi/λ)^2 - kx^2 - ky^2 + 0. I];
     H = Exp[I kz z] UnitStep[Re[kz]];  (* evanescent filter *)
     F = Fourier[field, FourierParameters -> {0, -1}];
     InverseFourier[F H, FourierParameters -> {0, -1}]
@@ -56,7 +56,7 @@ letterImg = ImageData[
   ]
 ][[All, All, 1]];   (* 0 = white, 1 = black *)
 
-object = (1 - letterImg) * Exp[I RandomReal[{-π, π}, {n, n}]];
+object = (1 - letterImg) * Exp[I RandomReal[{-Pi, Pi}, {n, n}]];
 
 (* Propagate object to hologram plane *)
 objectAtHolo = ASPropagate[object, zHolo, λ, ps];

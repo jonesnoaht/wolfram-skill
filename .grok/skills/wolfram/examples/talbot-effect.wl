@@ -28,9 +28,9 @@ ASPropagate[field_, z_, lam_, dx_] := Module[
   df = 1/(nx dx);
   fx = RotateRight[Range[-nx/2, nx/2-1] df, Floor[nx/2]];
   fy = fx;
-  kx = 2 π Outer[Times, fx, ConstantArray[1, nx]];
-  ky = 2 π Outer[Times, ConstantArray[1, nx], fy];
-  kz = Sqrt[(2 π/lam)^2 - kx^2 - ky^2 + 0. I];
+  kx = 2 Pi Outer[Times, fx, ConstantArray[1, nx]];
+  ky = 2 Pi Outer[Times, ConstantArray[1, nx], fy];
+  kz = Sqrt[(2 Pi/lam)^2 - kx^2 - ky^2 + 0. I];
   H = Exp[I kz z] UnitStep[Re[kz]];
   F = Fourier[field, FourierParameters -> {0, -1}];
   InverseFourier[F H, FourierParameters -> {0, -1}]
@@ -38,7 +38,7 @@ ASPropagate[field_, z_, lam_, dx_] := Module[
 
 (* Periodic grating (amplitude) *)
 period = 40 * ps;   (* grating period in meters *)
-grating = 0.5 + 0.5 Sign[Sin[2 π X / period]];   (* binary amplitude grating *)
+grating = 0.5 + 0.5 Sign[Sin[2 Pi X / period]];   (* binary amplitude grating *)
 
 (* Precompute Talbot distance for reference *)
 talbotZ = 2 period^2 / λ;
@@ -93,5 +93,5 @@ Manipulate[
    - At z = z_T the pattern should look almost identical to the grating (self-image).
    - At z = z_T/2 you see a phase-reversed or shifted image (fractional Talbot).
    - Try changing the grating period or making it a phase grating:
-       grating = Exp[I π Sign[Sin[2 π X / period]]];
+       grating = Exp[I Pi Sign[Sin[2 Pi X / period]]];
 *)

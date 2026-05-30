@@ -122,7 +122,7 @@ DynamicModule[
               ParametricPlot[
                 Through[sol[τ]],
                 {τ, 0, tcur},
-                PlotRange -> {{-π, π}, {-8, 8}},
+                PlotRange -> {{-Pi, Pi}, {-8, 8}},
                 ImageSize -> 280,
                 Frame -> True,
                 FrameLabel -> {"θ₁ (rad)", "ω₁ (rad/s)"},
@@ -157,9 +157,9 @@ DynamicModule[
         {
           {Control[{{tcur, 0, "Time"}, 0, tmax, 0.01, Animator, 
               AnimationRate -> 1, AppearanceElements -> {"PlayPauseButton", "ResetButton"}}]},
-          {Control[{{θ10, 2.8, "θ₁(0)"}, -π, π, 0.05, Appearance -> "Labeled"}]},
+          {Control[{{θ10, 2.8, "θ₁(0)"}, -Pi, Pi, 0.05, Appearance -> "Labeled"}]},
           {Control[{{ω10, 0, "ω₁(0)"}, -6, 6, 0.1, Appearance -> "Labeled"}]},
-          {Control[{{θ20, 0.6, "θ₂(0)"}, -π, π, 0.05, Appearance -> "Labeled"}]},
+          {Control[{{θ20, 0.6, "θ₂(0)"}, -Pi, Pi, 0.05, Appearance -> "Labeled"}]},
           {Control[{{ω20, 0, "ω₂(0)"}, -6, 6, 0.1, Appearance -> "Labeled"}]},
           {Control[{{L1cur, 1.0, "L₁ (m)"}, 0.3, 2.0, 0.05, Appearance -> "Labeled"}]},
           {Control[{{L2cur, 1.0, "L₂ (m)"}, 0.3, 2.0, 0.05, Appearance -> "Labeled"}]}

@@ -19,7 +19,7 @@ ClearAll["Global`*"];
 ps = 8 * 10^-6;   (* typical SLM pixel pitch *)
 n = 512;
 L = n * ps;
-k = 2 π / λ;
+k = 2 Pi / λ;
 
 x = ps * Range[-n/2, n/2 - 1];
 {X, Y} = {Outer[Times, x, ConstantArray[1, n]],
@@ -30,9 +30,9 @@ ASPropagate[field_, z_, lam_, dx_] := Module[
   df = 1/(nx dx);
   fx = RotateRight[Range[-nx/2, nx/2-1] df, Floor[nx/2]];
   fy = fx;
-  kx = 2 π Outer[Times, fx, ConstantArray[1, nx]];
-  ky = 2 π Outer[Times, ConstantArray[1, nx], fy];
-  kz = Sqrt[(2 π/lam)^2 - kx^2 - ky^2 + 0. I];
+  kx = 2 Pi Outer[Times, fx, ConstantArray[1, nx]];
+  ky = 2 Pi Outer[Times, ConstantArray[1, nx], fy];
+  kz = Sqrt[(2 Pi/lam)^2 - kx^2 - ky^2 + 0. I];
   H = Exp[I kz z] UnitStep[Re[kz]];
   F = Fourier[field, FourierParameters -> {0, -1}];
   InverseFourier[F H, FourierParameters -> {0, -1}]
@@ -43,7 +43,7 @@ letterImg = ImageData[
   Rasterize[Style["SLM", FontFamily -> "Helvetica", FontSize -> 160, Bold],
     RasterSize -> n, ImageSize -> n]
 ][[All, All, 1]];
-object = (1 - letterImg) * Exp[I RandomReal[{-π, π}, {n, n}]];
+object = (1 - letterImg) * Exp[I RandomReal[{-Pi, Pi}, {n, n}]];
 
 (* Propagation distance to hologram plane *)
 zHolo = 0.04;

@@ -15,7 +15,7 @@ ClearAll["Global`*"];
 ps = 4 * 10^-6;
 n = 256;                (* smaller grid is fine for this test *)
 L = n * ps;
-k = 2 π / λ;
+k = 2 Pi / λ;
 
 x = ps * Range[-n/2, n/2 - 1];
 {X, Y} = {
@@ -29,9 +29,9 @@ ASPropagate[field_, z_, lam_, dx_] := Module[
   df = 1/(nx dx);
   fx = RotateRight[Range[-nx/2, nx/2-1] df, Floor[nx/2]];
   fy = fx;
-  kx = 2 π Outer[Times, fx, ConstantArray[1, nx]];
-  ky = 2 π Outer[Times, ConstantArray[1, nx], fy];
-  kz = Sqrt[(2 π/lam)^2 - kx^2 - ky^2 + 0. I];
+  kx = 2 Pi Outer[Times, fx, ConstantArray[1, nx]];
+  ky = 2 Pi Outer[Times, ConstantArray[1, nx], fy];
+  kz = Sqrt[(2 Pi/lam)^2 - kx^2 - ky^2 + 0. I];
   H = Exp[I kz z] UnitStep[Re[kz]];
   F = Fourier[field, FourierParameters -> {0, -1}];
   InverseFourier[F H, FourierParameters -> {0, -1}]
