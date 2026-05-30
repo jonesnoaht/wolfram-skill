@@ -160,4 +160,38 @@ wolframscript -f .grok/skills/wolfram/examples/holography-kinoform-W.wl
 
 This two-step hash process is annoying but required because Wolfram does not allow redistribution of their installers. Once the hash is set in the flake it stays working.
 
+### Using `just` (recommended)
+
+This project includes a `justfile` — a modern, simple command runner (think "Make, but much nicer").
+
+**What is `just`?**
+- It lets you define short, memorable commands in a file called `justfile`.
+- Instead of typing long paths every time, you just run `just <something>`.
+- It is extremely popular in modern development (especially Rust, Nix, and open source projects).
+
+**Install just:**
+
+```bash
+# NixOS / Nix
+nix profile install nixpkgs#just
+
+# macOS
+brew install just
+
+# Other systems: https://github.com/casey/just#installation
+```
+
+**Useful commands in this project:**
+
+```bash
+just                    # Show all available commands
+just kinoform-w         # Run the letter "W" kinoform (exports images + GIF)
+just offaxis            # Off-axis hologram demo
+just talbot             # Beautiful Talbot self-imaging effect
+just pendulum           # Double pendulum with energy diagnostics
+just shell              # Enter the Wolfram development shell
+```
+
+This is the recommended way to interact with the examples from the terminal.
+
 Contributions, bug reports, and new high-quality examples (especially more holography or PDE/FEM cases) are very welcome.
