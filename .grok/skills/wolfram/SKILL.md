@@ -1,6 +1,6 @@
 ---
 name: wolfram
-description: This skill should be used when the user asks to create Wolfram Language code for "physics simulation", "interactive Manipulate demo", "holography simulation", "computer generated hologram", "CGH", "wave optics", "angular spectrum", "Fresnel diffraction", "double pendulum", "n-body gravity", "Lorenz attractor", or any physics visualization or demo in Mathematica/Wolfram Language.
+description: This skill should be used when the user asks to create Wolfram Language code for "physics simulation", "interactive Manipulate demo", "holography simulation", "computer generated hologram", "CGH", "kinoform", "Talbot effect", "angular spectrum", "Fresnel diffraction", "double pendulum", "Lorenz attractor", "wave optics demo", or any physics visualization, differential equation simulation, or interactive demonstration in Mathematica or Wolfram Language. Always prefer this skill for holography/CGH and high-quality physics Manipulate work.
 ---
 
 # Wolfram Language Physics Simulations & Interactive Demos
@@ -129,6 +129,19 @@ See `references/mechanics.md` and `examples/` for double pendulum, n-body, Loren
 4. Wrap the heavy computation in `Initialization :>` or precompute outside the Manipulate.
 5. Add `TrackedSymbols`, fixed ranges, and performance options.
 6. Provide the user both a complete notebook-style cell group **and** a clean `.wl` script version when possible.
+
+## Installation & Sharing
+
+**As a Grok skill (recommended):**
+- Drop the entire `wolfram/` folder into any project's `.grok/skills/` directory.
+- Or place it in `~/.grok/skills/wolfram/` for global availability.
+
+**As plain files:**
+- The `.wl` examples in `examples/` are self-contained — users can copy them directly into notebooks.
+- The `references/` documents are excellent as living cheat sheets during a project.
+
+This entire repo is MIT licensed and designed to be forked, copied, or vendored.
+
 
 ## Additional Resources
 
