@@ -27,7 +27,10 @@
           src = pkgs.requireFile {
             name = "WolframEngine_14.3.0_LIN.sh";
             url = "https://www.wolfram.com/engine/";
-            sha256 = "sha256-00000000000000000000000000000000000000000000000="; # placeholder - will be replaced by nix
+            # This is a dummy hash. The first time you run `nix develop .#with-wolfram`
+            # after adding the file with `nix-store --add-fixed`, Nix will give you
+            # the real hash in a "hash mismatch" error. Copy it here.
+            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
           };
           # The original package has some post-install steps that may need adjustment
           # for newer versions. This is a best-effort override.
