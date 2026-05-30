@@ -16,15 +16,18 @@
 
         # === Wolfram Engine 14.3 override ===
         #
-        # We completely bypass nixpkgs' requireFile (which is stuck on 14.1)
-        # by pointing straight at the file you already added to the store.
+        # nixpkgs' built-in wolfram-engine is still on 14.1 and uses requireFile.
+        # We override src + version to point at your 14.3 installer.
+        #
+        # Because flakes are pure by default, we must use requireFile (not a raw /nix/store path).
         wolframEngine14_3 = pkgs.wolfram-engine.overrideAttrs (old: rec {
           version = "14.3.0";
-          # Use the exact store path from the file you added earlier.
-          # This is the simplest and most reliable way once the file is in your store.
-          src = /nix/store/7qdmra8n79ddvwf6bwrgazs18j2k460w-WolframEngine_14.3.0_LIN.sh;
-          # Note: The original wolfram-engine package does some installer post-processing.
-          # If this override produces further errors, we can refine it.
+          src = pkgs.requireFile {
+            name = "WolframEngine_14.3.0_LIN.sh";
+            url = "https://www.wolfram.com/engine/";
+            # Replace this with the real hash (see instructions in README or run the command below)
+            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+          };
         });
       in
       {

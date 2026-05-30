@@ -115,17 +115,19 @@ The default shell gives you `git`, `gh`, `just`, Python + Ruff/Black, and Nix fo
 
 #### Using Wolfram Engine 14.3
 
-The version in nixpkgs is still 14.1. This flake uses a direct override to your already-added 14.3 installer.
+The version in nixpkgs is still 14.1. This flake overrides it to use your 14.3 installer via `requireFile`.
 
-1. Download `WolframEngine_14.3.0_LIN.sh` from https://www.wolfram.com/engine/.
+Because flakes evaluate in pure mode, you **must** use the hash-based `requireFile` approach (raw `/nix/store/...` paths are forbidden).
 
-2. Add it to your Nix store **once**:
+1. You already added the installer earlier. Now extract its correct SRI hash:
 
    ```bash
-   nix-store --add-fixed sha256 ~/Downloads/WolframEngine_14.3.0_LIN.sh
+   nix hash file --sri --algo sha256 /nix/store/7qdmra8n79ddvwf6bwrgazs18j2k460w-WolframEngine_14.3.0_LIN.sh
    ```
 
-   (You already did this — the store path is `7qdmra8n79ddvwf6bwrgazs18j2k460w-...`.)
+   This will print something like `sha256-abc123...longstring=`
+
+2. Open `flake.nix` and replace the placeholder hash in the `wolframEngine14_3` definition with the real one.
 
 3. Enter the shell:
 
@@ -133,13 +135,13 @@ The version in nixpkgs is still 14.1. This flake uses a direct override to your 
    nix develop .#with-wolfram
    ```
 
-4. On first use inside the shell, activate your free license:
+4. The first time, activate your free license:
 
    ```bash
    wolframscript
    ```
 
-After this you can run any of the examples, e.g.:
+After this you can run examples:
 
 ```bash
 wolframscript -f .grok/skills/wolfram/examples/holography-kinoform-W.wl
