@@ -31,7 +31,7 @@
             #
             # Or for older Nix:
             #   HASH=$(nix hash file --type sha256 /nix/store/...); nix hash to-sri "$HASH"
-            sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+            sha256 = "sha256-hhYpzHGFkqKsqWmh22pDLPGJ0rlb+L2fYeJj3WF1Ntw";
           };
         });
       in
